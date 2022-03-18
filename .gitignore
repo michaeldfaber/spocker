@@ -1,5 +1,6 @@
-frontend/node_modules
-frontend/bin
-frontend/obj
+web/node_modules
+web/public/build
+
+spocker
 
 .DS_STORE
