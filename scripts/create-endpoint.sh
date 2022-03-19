@@ -3,13 +3,13 @@
 if [ $# -ne 3 ]
 then
     echo "Missing or too many command line arguments."
-    echo "Usage: sh new-endpoint.sh [http verb] [endpoint name] [expected json response]"
+    echo "Usage: sh create-endpoint.sh [http verb] [endpoint name] [expected json response]"
     exit 1
 fi
 
 # usage:
-# sh new-endpoint.sh [http verb] [endpoint name] [expected json response]
-# sh new-endpoint.sh "POST" "test" "{}"
+# sh create-endpoint.sh [http verb] [endpoint name] [expected json response]
+# sh create-endpoint.sh "POST" "test" "{}"
 
 # add router line to handleRequests()
 function router_handle_func() {
@@ -22,7 +22,7 @@ function router_handle_func() {
 
 # add function
 function create_handler() {
-    echo "\nfunc $2(w http.ResponseWriter, r *http.Request) {" >> ../main.go
+    echo "\nfunc $2(w http.ResponseWriter, r *http.Request) { // $1" >> ../main.go
     echo "\tw.Header().Set(\"Content-Type\", \"application/json\")" >> ../main.go
     echo "\tvar res interface{}" >> ../main.go
     echo "\tresJson := \`$3\`" >> ../main.go
