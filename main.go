@@ -13,20 +13,18 @@ func main() {
 
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/test", test).Methods("POST")
-	router.HandleFunc("/Testing", testing).Methods("GET")
+	router.HandleFunc("/hello", hello).Methods("POST")
+	router.HandleFunc("/test", test).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5001", router))
 }
-
-func testing(w http.ResponseWriter, r *http.Request) {
+func test(w http.ResponseWriter, r *http.Request) { // GET
 	w.Header().Set("Content-Type", "application/json")
 	var res interface{}
-	resJson := `{ "Testing": "Hello World!" }`
+	resJson := `{}`
 	json.Unmarshal([]byte(resJson), &res)
 	json.NewEncoder(w).Encode(res)
 }
-
-func test(w http.ResponseWriter, r *http.Request) {
+func hello(w http.ResponseWriter, r *http.Request) { // POST
 	w.Header().Set("Content-Type", "application/json")
 	var res interface{}
 	resJson := `{}`
