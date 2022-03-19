@@ -16,13 +16,12 @@ function router_handle_func() {
     VERB="$1"
     NAME="$2"
     awk -v verb="$VERB" -v name="$NAME" 'NR==16{print "\trouter.HandleFunc(\"/" name "\", " name ").Methods(\"" verb "\")"}1' ../main.go >> ../main-temp.go
-    rm ../main.go
-    mv ../main-temp.go ../main.go
+    rm ../main.go && mv ../main-temp.go ../main.go
 }
 
 # add function
 function create_handler() {
-    echo "\nfunc $2(w http.ResponseWriter, r *http.Request) { // $1" >> ../main.go
+    echo "func $2(w http.ResponseWriter, r *http.Request) { // $1" >> ../main.go
     echo "\tw.Header().Set(\"Content-Type\", \"application/json\")" >> ../main.go
     echo "\tvar res interface{}" >> ../main.go
     echo "\tresJson := \`$3\`" >> ../main.go
