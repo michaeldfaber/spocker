@@ -2,28 +2,46 @@
 	let httpVerb;
 	let endpoint;
 	let expectedJsonResponse;
+
+	function handleHttpVerb(e) {
+		httpVerb = e.target.value;
+		console.log(httpVerb);
+	}
+
+	function handleEndpoint(e) {
+		endpoint = e.target.value;
+		console.log(endpoint);
+	}
+
+	function handleExpectedJsonResponse(e) {
+		expectedJsonResponse = e.target.value;
+		console.log(expectedJsonResponse);
+	}
+
+	// TODO: validate inputs
+	function handleCreate() {}
 </script>
 
 <main>
 	<h1>Spocker</h1>
 
 	<label for="httpVerbInput">HTTP Verb</label>
-	<select id="httpVerbInput">
-		<option value="get">GET</option>
-		<option value="post">POST</option>
-		<option value="put">PUT</option>
-		<option value="update">UPDATE</option>
-		<option value="delete">DELETE</option>
+	<select id="httpVerbInput" on:change={handleHttpVerb}>
+		<option value="GET">GET</option>
+		<option value="POST">POST</option>
+		<option value="PUT">PUT</option>
+		<option value="UPDATE">UPDATE</option>
+		<option value="DELETE">DELETE</option>
 	</select>
 
 	<label for="endpointInput">Endpoint</label>
-	<input id="endpointInput" type="text" />
+	/ <input id="endpointInput" type="text" on:keyup={handleEndpoint} />
 
 	<label for="expectedJsonResponseInput">Expected JSON Response</label>
-	<textarea id="expectedJsonResponseInput" type="text" />
+	<textarea id="expectedJsonResponseInput" type="text" on:keyup={handleExpectedJsonResponse} />
 
 	<br />
-	<button>Create</button>
+	<button id="create" on:click={handleCreate}>Create</button>
 </main>
 
 <style>
@@ -45,15 +63,23 @@
 		margin-bottom: 5px;
 	}
 
-	select, input {
+	select, input, textarea {
 		width: 400px;
 		margin-bottom: 30px;
 	}
 
 	textarea {
 		height: 200px;
-		width: 400px;
-		margin-bottom: 30px;
+	}
+
+	button {
+		color: #0099f6;
+		background-color: #f2c300;
+		text-transform: uppercase;
+		border-width: 0px;
+		font-weight: 500;
+		height: 40px;
+		width: 150px;
 	}
 
 	@media (min-width: 640px) {
