@@ -1,0 +1,4 @@
+[
+    { "httpVerb": "GET", "name": "test", "path": "test", "response": {} },
+    { "httpVerb": "POST", "name": "hello", "path": "hello", "response": {} }
+]
