@@ -15,7 +15,7 @@ fi
 function router_handle_func() {
     VERB="$1"
     NAME="$2"
-    awk -v verb="$VERB" -v name="$NAME" 'NR==65{print "\trouter.HandleFunc(\"/" name "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
+    awk -v verb="$VERB" -v name="$NAME" 'NR==80{print "\trouter.HandleFunc(\"/" name "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
     rm main.go && mv main-temp.go main.go
 }
 

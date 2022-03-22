@@ -14,6 +14,19 @@ func main() {
 	handleRequests()
 }
 
+func get_endpoints(w http.ResponseWriter, r *http.Request) {
+	endpointsJson, err := ioutil.ReadFile("endpoints.json")
+	if err != nil {
+		return
+	}
+
+	var endpoints []Endpoint
+	json.Unmarshal(endpointsJson, &endpoints)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(endpoints)
+}
+
 func create_endpoint(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -62,8 +75,9 @@ func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/create", create_endpoint).Methods("POST")
 	router.HandleFunc("/delete", delete_endpoint).Methods("POST")
-	router.HandleFunc("/helloWorld", helloWorld).Methods("GET")
+	router.HandleFunc("/endpoints", get_endpoints).Methods("GET")
 
+	router.HandleFunc("/helloWorld", helloWorld).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5001", router))
 }
 func helloWorld(w http.ResponseWriter, r *http.Request) { // GET
