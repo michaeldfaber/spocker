@@ -30,5 +30,16 @@ function create_handler() {
     echo "}" >> main.go
 }
 
+# update json
+function update_json() {
+    VERB="$1"
+    NAME="$2"
+    JSON="$3"
+    'NR==2{print "{ \"httpVerb\": \"" verb "\", \"name\": \"" name "\", \"path\": \"" name "\", \"response\": " json "}"'
+    awk -v verb="$VERB" -v name="$NAME" -v json="$JSON" 'NR==2{print "\t{ \"httpVerb\": \"" verb "\", \"name\": \"" name "\", \"path\": \"" name "\", \"response\": " json "},"}1' endpoints.json >> endpoints-temp.json
+    rm endpoints.json && mv endpoints-temp.json endpoints.json
+}
+
 router_handle_func $1 $2 &&
-create_handler $1 $2 $3
+create_handler $1 $2 $3 &&
+update_json $1 $2 $3

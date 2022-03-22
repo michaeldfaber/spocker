@@ -2,11 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os/exec"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -61,6 +62,14 @@ func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/create", create_endpoint).Methods("POST")
 	router.HandleFunc("/delete", delete_endpoint).Methods("POST")
+	router.HandleFunc("/helloWorld", helloWorld).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":5001", router))
+}
+func helloWorld(w http.ResponseWriter, r *http.Request) { // GET
+	w.Header().Set("Content-Type", "application/json")
+	var res interface{}
+	resJson := `{"Hello":"World"}`
+	json.Unmarshal([]byte(resJson), &res)
+	json.NewEncoder(w).Encode(res)
 }
