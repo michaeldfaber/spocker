@@ -1,5 +1,4 @@
 [
 	{ "httpVerb": "GET", "name": "helloWorld", "path": "helloWorld", "response": {"Hello":"World"}},
-    { "httpVerb": "POST", "name": "create", "path": "create", "response": {} },
-    { "httpVerb": "POST", "name": "delete", "path": "delete", "response": {} }
+    { "httpVerb": "", "name": "", "path": "", "response": {} }
 ]

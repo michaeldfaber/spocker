@@ -22,6 +22,7 @@ func get_endpoints(w http.ResponseWriter, r *http.Request) {
 
 	var endpoints []Endpoint
 	json.Unmarshal(endpointsJson, &endpoints)
+	endpoints = endpoints[0 : len(endpoints)-1]
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(endpoints)
