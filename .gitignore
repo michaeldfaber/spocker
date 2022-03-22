@@ -2,5 +2,6 @@ web/node_modules
 web/public/build
 
 spocker
+gin-bin
 
 .DS_STORE
