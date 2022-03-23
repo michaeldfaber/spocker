@@ -38,20 +38,5 @@ function delete_handler() {
     rm main.go && mv main-temp.go main.go
 }
 
-# update json
-function update_json() {
-    endpoint=$(grep -n "{ \"httpVerb\": \"$1\", \"name\": \"$2\", \"path\": \"$2\"," endpoints.json)
-    if [ -z "$endpoint" ]
-    then
-        return
-    fi
-
-    endpoint_line=$(echo $endpoint | cut -d':' -f 1)
-
-    sed "$endpoint_line"'d' endpoints.json >> endpoints-temp.json
-    rm endpoints.json && mv endpoints-temp.json endpoints.json
-}
-
 delete_router_handle_func $1 $2 &&
-delete_handler $1 $2 &&
-update_json $1 $2
+delete_handler $1 $2
