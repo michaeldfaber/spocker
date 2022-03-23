@@ -7,21 +7,20 @@ A work in progress. Built with Svelte and Go.
 ## Downloads
 
 - [go](https://go.dev/doc/install)
-- gin
-
-`go get -u github.com/codegangsta/gin`
-
-For Mac: add `alias gin='[path to go]/go/bin/gin` to `.bash_profile` if `gin -h` yields `command not found: gin`
+- [gin](https://github.com/gin-gonic/gin#installation)
+- [MongoDB](https://docs.mongodb.com/manual/installation/)
 
 ## Run Locally
 
-The API is working. Run it with this command. There's a postman collection in the repo as well.
+Make sure your local instance of MongoDB is runnning.
+
+Run the API:
 
 ```
 gin --appPort 5001 --port 5005 -x ./web --immediate
 ```
 
-The frontend is also working, but it isn't "connected" to the API yet. Run it with this command.
+Run the frontend:
 
 ```
 npm run dev
