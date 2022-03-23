@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	manage_endpoints "spocker/manage_endpoints"
+	endpoints "spocker/endpoints"
 )
 
 func main() {
@@ -16,9 +16,9 @@ func main() {
 
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/endpoints", manage_endpoints.GetAll).Methods("GET")
-	router.HandleFunc("/create", manage_endpoints.Create).Methods("POST")
-	router.HandleFunc("/delete", manage_endpoints.Delete).Methods("POST")
+	router.HandleFunc("/endpoints", endpoints.GetAll).Methods("GET")
+	router.HandleFunc("/create", endpoints.Create).Methods("POST")
+	router.HandleFunc("/delete", endpoints.Delete).Methods("POST")
 
 	router.HandleFunc("/helloWorldFive", helloWorldFive).Methods("GET")
 	router.HandleFunc("/helloWorldFour", helloWorldFour).Methods("GET")

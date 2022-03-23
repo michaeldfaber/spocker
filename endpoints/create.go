@@ -1,4 +1,4 @@
-package manage_endpoints
+package endpoints
 
 import (
 	"encoding/json"
