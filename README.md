@@ -1,10 +1,8 @@
 # Spocker
 
-A tool that runs locally and allows you to create a mock API endpoint by filling out a small form on a dashboard.
+A tool that makes creating mock API endpoints as simple as filling out a small form on a dashboard.
 
-A work in progress.
-
-Written in Svelte and Go.
+A work in progress. Built with Svelte and Go.
 
 ## Downloads
 
@@ -13,7 +11,7 @@ Written in Svelte and Go.
 
 `go get -u github.com/codegangsta/gin`
 
-For Mac: add `alias gin='[path to go]/go/bin/gin` if `gin -h` yields `command not found: gin`
+For Mac: add `alias gin='[path to go]/go/bin/gin` to `.bash_profile` if `gin -h` yields `command not found: gin`
 
 ## Run Locally
 
@@ -23,6 +21,26 @@ The API is working. Run it with this command. There's a postman collection in th
 gin --appPort 5001 --port 5005 -x ./web --immediate
 ```
 
+The frontend is also working, but it isn't "connected" to the API yet. Run it with this command.
+
+```
+npm run dev
+```
+
 ## Backlog
 
-- TODO
+Priority
+
+- MongoDB instead of JSON file (lol)
+- Create via frontend
+- Delete via frontend
+- Update via API
+- Update via frontend
+- Package spocker somehow, Docker?
+
+Future
+
+- Authentication for mock endpoints
+- Configurable response headers for mock endpoints
+- Expiration for mock endpoints
+- Log requests received by mock endpoints
