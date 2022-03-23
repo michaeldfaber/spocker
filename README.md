@@ -31,6 +31,7 @@ npm run dev
 Priority
 
 - MongoDB instead of JSON file (lol)
+- Error handling in go
 - Create via frontend
 - Delete via frontend
 - Update via API
@@ -40,6 +41,7 @@ Priority
 Future
 
 - Authentication for mock endpoints
+- Wildcard endpoints
 - Configurable response headers for mock endpoints
 - Expiration for mock endpoints
 - Log requests received by mock endpoints
