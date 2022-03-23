@@ -74,9 +74,9 @@ func delete_endpoint(w http.ResponseWriter, r *http.Request) {
 
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/endpoints", get_endpoints).Methods("GET")
 	router.HandleFunc("/create", create_endpoint).Methods("POST")
 	router.HandleFunc("/delete", delete_endpoint).Methods("POST")
-	router.HandleFunc("/endpoints", get_endpoints).Methods("GET")
 
 	router.HandleFunc("/helloWorld", helloWorld).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5001", router))

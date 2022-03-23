@@ -13,9 +13,7 @@ fi
 
 # add router line to handleRequests()
 function router_handle_func() {
-    VERB="$1"
-    NAME="$2"
-    awk -v verb="$VERB" -v name="$NAME" 'NR==80{print "\trouter.HandleFunc(\"/" name "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
+    awk -v verb="$1" -v name="$2" 'NR==81{print "\trouter.HandleFunc(\"/" name "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
     rm main.go && mv main-temp.go main.go
 }
 
@@ -32,11 +30,7 @@ function create_handler() {
 
 # update json
 function update_json() {
-    VERB="$1"
-    NAME="$2"
-    JSON="$3"
-    'NR==2{print "{ \"httpVerb\": \"" verb "\", \"name\": \"" name "\", \"path\": \"" name "\", \"response\": " json "}"'
-    awk -v verb="$VERB" -v name="$NAME" -v json="$JSON" 'NR==2{print "\t{ \"httpVerb\": \"" verb "\", \"name\": \"" name "\", \"path\": \"" name "\", \"response\": " json "},"}1' endpoints.json >> endpoints-temp.json
+    awk -v verb="$1" -v name="$2" -v j="$3" 'NR==2{print "\t{ \"httpVerb\": \"" verb "\", \"name\": \"" name "\", \"path\": \"" name "\", \"response\": " j "\" },"}1' endpoints.json >> endpoints-temp.json
     rm endpoints.json && mv endpoints-temp.json endpoints.json
 }
 
