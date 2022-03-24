@@ -20,29 +20,24 @@ func handleRequests() {
 	router.HandleFunc("/create", endpoints.Create).Methods("POST")
 	router.HandleFunc("/delete", endpoints.Delete).Methods("POST")
 
-	router.HandleFunc("/helloWorldFive", helloWorldFive).Methods("GET")
-	router.HandleFunc("/helloWorldFour", helloWorldFour).Methods("GET")
-	router.HandleFunc("/helloWorld", helloWorld).Methods("GET")
+	router.HandleFunc("/helloWorldSix", helloWorldSix).Methods("GET")
+	router.HandleFunc("/helloWorldTwo", helloWorldTwo).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5001", router))
 }
-func helloWorld(w http.ResponseWriter, r *http.Request) { // GET
+func helloWorldTwo(w http.ResponseWriter, r *http.Request) { // GET
 	w.Header().Set("Content-Type", "application/json")
-	var res interface{}
-	resJson := `{"Hello":"World"}`
-	json.Unmarshal([]byte(resJson), &res)
+	res, err := endpoints.GetResponse("GET", "helloWorldTwo")
+	if err != nil {
+		return
+	}
 	json.NewEncoder(w).Encode(res)
 }
-func helloWorldFour(w http.ResponseWriter, r *http.Request) { // GET
+func helloWorldSix(w http.ResponseWriter, r *http.Request) { // GET
 	w.Header().Set("Content-Type", "application/json")
 	var res interface{}
-	resJson := `{"Hello":"World`
-	json.Unmarshal([]byte(resJson), &res)
-	json.NewEncoder(w).Encode(res)
-}
-func helloWorldFive(w http.ResponseWriter, r *http.Request) { // GET
-	w.Header().Set("Content-Type", "application/json")
-	var res interface{}
-	resJson := `{"Hello":"World`
-	json.Unmarshal([]byte(resJson), &res)
+	res, err := endpoints.GetResponse("GET", "helloWorldSix")
+	if err != nil {
+		return
+	}
 	json.NewEncoder(w).Encode(res)
 }

@@ -2,7 +2,6 @@ package mongodb
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -23,7 +22,6 @@ func New() (*MongoDb, error) {
 
 	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost"))
 	if err != nil {
-		fmt.Printf("1 %v\n", err)
 		return &mongodb, err
 	}
 
@@ -31,10 +29,8 @@ func New() (*MongoDb, error) {
 	err = client.Connect(ctx)
 	if err != nil {
 		cancel()
-		fmt.Printf("2 %v\n", err)
 		return &mongodb, err
 	}
-	// defer client.Disconnect(ctx)
 
 	collection := client.Database("spocker").Collection("endpoints")
 
@@ -51,6 +47,23 @@ func (m *MongoDb) Disconnect() {
 	m.cancel()
 }
 
+func (m *MongoDb) GetAll() {}
+
+func (m *MongoDb) GetResponse(httpVerb string, name string) (interface{}, error) {
+	var filter Filter
+	filter.httpVerb = httpVerb
+	filter.name = name
+
+	result := m.collection.FindOne(m.context, filter)
+	if result.Err() != nil {
+		return nil, result.Err()
+	}
+
+	var document Document
+	result.Decode(&document)
+	return document.Response, nil
+}
+
 func (m *MongoDb) Create(createEndpointRequest types.CreateEndpointRequest) error {
 	var endpoint types.Endpoint
 	endpoint.HttpVerb = createEndpointRequest.HttpVerb
@@ -60,7 +73,6 @@ func (m *MongoDb) Create(createEndpointRequest types.CreateEndpointRequest) erro
 
 	_, err := m.collection.InsertOne(m.context, endpoint)
 	if err != nil {
-		fmt.Printf("3 %v\n", err)
 		return err
 	}
 

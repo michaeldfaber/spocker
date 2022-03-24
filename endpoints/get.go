@@ -1,23 +1,26 @@
 package endpoints
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/http"
 
-	types "spocker/types"
+	mongodb "spocker/mongodb"
 )
 
-func GetAll(w http.ResponseWriter, r *http.Request) {
-	endpointsJson, err := ioutil.ReadFile("endpoints.json")
+func GetAll(w http.ResponseWriter, r *http.Request) {}
+
+func GetResponse(httpVerb string, name string) (interface{}, error) {
+	mongoClient, err := mongodb.New()
 	if err != nil {
-		return
+		mongoClient.Disconnect()
+		return nil, err
 	}
 
-	var endpoints []types.Endpoint
-	json.Unmarshal(endpointsJson, &endpoints)
-	endpoints = endpoints[0 : len(endpoints)-1]
+	response, err := mongoClient.GetResponse(httpVerb, name)
+	if err != nil {
+		mongoClient.Disconnect()
+		return nil, err
+	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(endpoints)
+	mongoClient.Disconnect()
+	return response, nil
 }

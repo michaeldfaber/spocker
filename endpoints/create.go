@@ -2,7 +2,6 @@ package endpoints
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os/exec"
@@ -44,13 +43,11 @@ func Create(w http.ResponseWriter, r *http.Request) {
 func CreateDocument(createEndpointRequest types.CreateEndpointRequest) error {
 	mongoClient, err := mongodb.New()
 	if err != nil {
-		fmt.Printf("4 %v\n", err)
 		return err
 	}
 
 	err = mongoClient.Create(createEndpointRequest)
 	if err != nil {
-		fmt.Printf("5 %v\n", err)
 		return err
 	}
 

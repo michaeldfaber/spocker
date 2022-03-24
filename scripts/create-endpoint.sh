@@ -22,8 +22,10 @@ function create_handler() {
     echo "func $2(w http.ResponseWriter, r *http.Request) { // $1" >> main.go
     echo "\tw.Header().Set(\"Content-Type\", \"application/json\")" >> main.go
     echo "\tvar res interface{}" >> main.go
-    echo "\tresJson := \`$3\`" >> main.go
-    echo "\tjson.Unmarshal([]byte(resJson), &res)" >> main.go
+    echo "\tres, err := endpoints.GetResponse(\"$1\", \"$2\")" >> main.go
+    echo "\tif err != nil {" >> main.go
+    echo "\t\treturn" >> main.go
+    echo "\t}"
     echo "\tjson.NewEncoder(w).Encode(res)" >> main.go
     echo "}" >> main.go
 }
