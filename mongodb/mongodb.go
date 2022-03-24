@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
@@ -47,7 +48,30 @@ func (m *MongoDb) Disconnect() {
 	m.cancel()
 }
 
-func (m *MongoDb) GetAll() {}
+func (m *MongoDb) GetAll() ([]types.Endpoint, error) {
+	results, err := m.collection.Find(m.context, bson.D{})
+	if err != nil {
+		return nil, err
+	}
+
+	var endpoints []types.Endpoint
+	for results.Next(m.context) {
+		var document Document
+		err = results.Decode(&document)
+		if err != nil {
+			continue
+		}
+
+		var endpoint types.Endpoint
+		endpoint.HttpVerb = document.HttpVerb
+		endpoint.Name = document.Name
+		endpoint.Path = document.Path
+		endpoint.Response = document.Response
+		endpoints = append(endpoints, endpoint)
+	}
+
+	return endpoints, nil
+}
 
 func (m *MongoDb) GetResponse(httpVerb string, name string) (interface{}, error) {
 	var filter Filter
