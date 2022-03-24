@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [ $# -ne 2 ]
+if [ $# -ne 3 ]
 then
     echo "Missing or too many command line arguments."
-    echo "Usage: sh delete-endpoint.sh [http verb] [endpoint name]"
+    echo "Usage: sh delete-endpoint.sh [http verb] [endpoint name] [endpoint path]"
     exit 1
 fi
 
@@ -13,13 +13,13 @@ fi
 
 # delete router line from handleRequests()
 function delete_router_handle_func() {
-    router_handle=$(grep -n "router.HandleFunc(\"/$2\", $2).Methods(\"$1\")" main.go)
+    router_handle=$(grep -n "router.HandleFunc(\"/$3\", $2).Methods(\"$1\")" main.go)
     if [ -z "$router_handle" ]
     then
         return
     fi
     
-    $(grep -v "router.HandleFunc(\"/$2\", $2).Methods(\"$1\")" main.go >> main-temp.go)
+    $(grep -v "router.HandleFunc(\"/$3\", $2).Methods(\"$1\")" main.go >> main-temp.go)
     rm main.go && mv main-temp.go main.go
 }
 
@@ -32,11 +32,11 @@ function delete_handler() {
     fi
 
     handler_line_start=$(echo $handler | cut -d':' -f 1)
-    handler_line_end=$(($handler_line_start+6))
+    handler_line_end=$(($handler_line_start+8))
 
     sed "$handler_line_start"','"$handler_line_end"'d' main.go >> main-temp.go
     rm main.go && mv main-temp.go main.go
 }
 
-delete_router_handle_func $1 $2 &&
+delete_router_handle_func $1 $2 $3 &&
 delete_handler $1 $2
