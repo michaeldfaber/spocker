@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
@@ -98,12 +99,13 @@ func (m *MongoDb) Create(createEndpoint types.CreateEndpoint) error {
 	return nil
 }
 
-func (m *MongoDb) Delete(httpVerb string, name string) error {
-	var filter Filter
-	filter.httpVerb = httpVerb
-	filter.name = name
+func (m *MongoDb) Delete(id string) error {
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return err
+	}
 
-	result := m.collection.FindOneAndDelete(m.context, filter)
+	result := m.collection.FindOneAndDelete(m.context, bson.M{"_id": objectId})
 	if result.Err() != nil {
 		return result.Err()
 	}

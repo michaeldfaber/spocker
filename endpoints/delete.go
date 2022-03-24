@@ -36,19 +36,19 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// delete from database
-	err = DeleteDocument(deleteEndpointRequest.HttpVerb, name)
+	err = DeleteDocument(deleteEndpointRequest.Id)
 	if err != nil {
 		return
 	}
 }
 
-func DeleteDocument(httpVerb string, name string) error {
+func DeleteDocument(id string) error {
 	mongoClient, err := mongodb.New()
 	if err != nil {
 		return err
 	}
 
-	err = mongoClient.Delete(httpVerb, name)
+	err = mongoClient.Delete(id)
 	if err != nil {
 		return err
 	}
