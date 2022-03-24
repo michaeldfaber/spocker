@@ -2,7 +2,6 @@ package endpoints
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	mongodb "spocker/mongodb"
@@ -16,7 +15,6 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res, err := mongoClient.GetAll()
-	fmt.Printf("%v\n", res)
 	if err != nil {
 		mongoClient.Disconnect()
 		return

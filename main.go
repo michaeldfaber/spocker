@@ -16,16 +16,23 @@ func main() {
 
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/heartbeat", heartbeat).Methods("GET")
 	router.HandleFunc("/endpoints", endpoints.GetAll).Methods("GET")
 	router.HandleFunc("/create", endpoints.Create).Methods("POST")
 	router.HandleFunc("/delete", endpoints.Delete).Methods("POST")
 
-	router.HandleFunc("/helloWorldTwo", helloWorldTwo).Methods("GET")
+	router.HandleFunc("/helloWorld", helloWorld).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5001", router))
 }
-func helloWorldTwo(w http.ResponseWriter, r *http.Request) { // GET
+func heartbeat(w http.ResponseWriter, r *http.Request) { // GET
 	w.Header().Set("Content-Type", "application/json")
-	res, err := endpoints.GetResponse("GET", "helloWorldTwo")
+	var res interface{}
+	json.NewEncoder(w).Encode(res)
+}
+func helloWorld(w http.ResponseWriter, r *http.Request) { // GET
+	w.Header().Set("Content-Type", "application/json")
+	var res interface{}
+	res, err := endpoints.GetResponse("GET", "helloWorld")
 	if err != nil {
 		return
 	}

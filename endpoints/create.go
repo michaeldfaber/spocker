@@ -22,12 +22,12 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	var createEndpointRequest types.CreateEndpointRequest
 	json.Unmarshal(body, &createEndpointRequest)
 
-	// create endpoint object
-	var endpoint types.Endpoint
-	endpoint.HttpVerb = createEndpointRequest.HttpVerb
-	endpoint.Name = strings.Replace(createEndpointRequest.Endpoint, "/", "_", -1)
-	endpoint.Path = createEndpointRequest.Endpoint
-	endpoint.Response = createEndpointRequest.ExpectedJsonResponse
+	// createEndpoint object
+	var createEndpoint types.CreateEndpoint
+	createEndpoint.HttpVerb = createEndpointRequest.HttpVerb
+	createEndpoint.Name = strings.Replace(createEndpointRequest.Endpoint, "/", "_", -1)
+	createEndpoint.Path = createEndpointRequest.Endpoint
+	createEndpoint.Response = createEndpointRequest.ExpectedJsonResponse
 
 	// get expectedJsonResponse as string
 	expectedJsonResponse, err := json.Marshal(createEndpointRequest.ExpectedJsonResponse)
@@ -38,9 +38,9 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	// execute bash script
 	cmd := exec.Command(
 		"./scripts/create-endpoint.sh",
-		endpoint.HttpVerb,
-		endpoint.Name,
-		endpoint.Path,
+		createEndpoint.HttpVerb,
+		createEndpoint.Name,
+		createEndpoint.Path,
 		string(expectedJsonResponse))
 	_, err = cmd.Output()
 	if err != nil {
@@ -48,19 +48,19 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// save to database
-	err = CreateDocument(endpoint)
+	err = CreateDocument(createEndpoint)
 	if err != nil {
 		return
 	}
 }
 
-func CreateDocument(endpoint types.Endpoint) error {
+func CreateDocument(createEndpoint types.CreateEndpoint) error {
 	mongoClient, err := mongodb.New()
 	if err != nil {
 		return err
 	}
 
-	err = mongoClient.Create(endpoint)
+	err = mongoClient.Create(createEndpoint)
 	if err != nil {
 		return err
 	}

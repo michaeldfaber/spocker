@@ -63,6 +63,7 @@ func (m *MongoDb) GetAll() ([]types.Endpoint, error) {
 		}
 
 		var endpoint types.Endpoint
+		endpoint.Id = document.Id
 		endpoint.HttpVerb = document.HttpVerb
 		endpoint.Name = document.Name
 		endpoint.Path = document.Path
@@ -88,8 +89,8 @@ func (m *MongoDb) GetResponse(httpVerb string, name string) (interface{}, error)
 	return document.Response, nil
 }
 
-func (m *MongoDb) Create(endpoint types.Endpoint) error {
-	_, err := m.collection.InsertOne(m.context, endpoint)
+func (m *MongoDb) Create(createEndpoint types.CreateEndpoint) error {
+	_, err := m.collection.InsertOne(m.context, createEndpoint)
 	if err != nil {
 		return err
 	}
@@ -97,4 +98,15 @@ func (m *MongoDb) Create(endpoint types.Endpoint) error {
 	return nil
 }
 
-func (m *MongoDb) Delete(deleteEndpointRequest types.DeleteEndpointRequest) {}
+func (m *MongoDb) Delete(httpVerb string, name string) error {
+	var filter Filter
+	filter.httpVerb = httpVerb
+	filter.name = name
+
+	result := m.collection.FindOneAndDelete(m.context, filter)
+	if result.Err() != nil {
+		return result.Err()
+	}
+
+	return nil
+}
