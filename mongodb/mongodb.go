@@ -64,13 +64,7 @@ func (m *MongoDb) GetResponse(httpVerb string, name string) (interface{}, error)
 	return document.Response, nil
 }
 
-func (m *MongoDb) Create(createEndpointRequest types.CreateEndpointRequest) error {
-	var endpoint types.Endpoint
-	endpoint.HttpVerb = createEndpointRequest.HttpVerb
-	endpoint.Name = createEndpointRequest.Endpoint
-	endpoint.Path = createEndpointRequest.Endpoint
-	endpoint.Response = createEndpointRequest.ExpectedJsonResponse
-
+func (m *MongoDb) Create(endpoint types.Endpoint) error {
 	_, err := m.collection.InsertOne(m.context, endpoint)
 	if err != nil {
 		return err

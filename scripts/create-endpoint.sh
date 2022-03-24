@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [ $# -ne 3 ]
+if [ $# -ne 4 ]
 then
     echo "Missing or too many command line arguments."
-    echo "Usage: sh create-endpoint.sh [http verb] [endpoint name] [expected json response]"
+    echo "Usage: sh create-endpoint.sh [http verb] [endpoint name] [endpoint path] [expected json response]"
     exit 1
 fi
 
@@ -13,7 +13,7 @@ fi
 
 # add router line to handleRequests()
 function router_handle_func() {
-    awk -v verb="$1" -v name="$2" 'NR==23{print "\trouter.HandleFunc(\"/" name "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
+    awk -v verb="$1" -v name="$2" -v path="$3" 'NR==23{print "\trouter.HandleFunc(\"/" path "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
     rm main.go && mv main-temp.go main.go
 }
 
@@ -25,10 +25,10 @@ function create_handler() {
     echo "\tres, err := endpoints.GetResponse(\"$1\", \"$2\")" >> main.go
     echo "\tif err != nil {" >> main.go
     echo "\t\treturn" >> main.go
-    echo "\t}"
+    echo "\t}" >> main.go
     echo "\tjson.NewEncoder(w).Encode(res)" >> main.go
     echo "}" >> main.go
 }
 
-router_handle_func $1 $2 &&
+router_handle_func $1 $2 $3 &&
 create_handler $1 $2 $3

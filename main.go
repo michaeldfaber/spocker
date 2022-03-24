@@ -20,22 +20,12 @@ func handleRequests() {
 	router.HandleFunc("/create", endpoints.Create).Methods("POST")
 	router.HandleFunc("/delete", endpoints.Delete).Methods("POST")
 
-	router.HandleFunc("/helloWorldSix", helloWorldSix).Methods("GET")
 	router.HandleFunc("/helloWorldTwo", helloWorldTwo).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5001", router))
 }
 func helloWorldTwo(w http.ResponseWriter, r *http.Request) { // GET
 	w.Header().Set("Content-Type", "application/json")
 	res, err := endpoints.GetResponse("GET", "helloWorldTwo")
-	if err != nil {
-		return
-	}
-	json.NewEncoder(w).Encode(res)
-}
-func helloWorldSix(w http.ResponseWriter, r *http.Request) { // GET
-	w.Header().Set("Content-Type", "application/json")
-	var res interface{}
-	res, err := endpoints.GetResponse("GET", "helloWorldSix")
 	if err != nil {
 		return
 	}
