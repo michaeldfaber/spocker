@@ -17,7 +17,7 @@ Make sure your local instance of MongoDB is runnning.
 Run the API:
 
 ```
-gin --appPort 5001 --port 5005 -x ./web --immediate
+gin --appPort 5001 --port 5005 --immediate --build . --path main.go --bin spocker
 ```
 
 Run the frontend:
