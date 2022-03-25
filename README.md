@@ -30,9 +30,7 @@ npm run dev
 
 Priority
 
-- MongoDB instead of JSON file (lol)
 - Error handling in go
-- Create via frontend
 - Delete via frontend
 - Update via API
 - Update via frontend
