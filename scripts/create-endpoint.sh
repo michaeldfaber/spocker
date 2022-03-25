@@ -13,7 +13,7 @@ fi
 
 # add router line to handleRequests()
 function router_handle_func() {
-    awk -v verb="$1" -v name="$2" -v path="$3" 'NR==24{print "\trouter.HandleFunc(\"/" path "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
+    awk -v verb="$1" -v name="$2" -v path="$3" 'NR==30{print "\trouter.HandleFunc(\"/" path "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
     rm main.go && mv main-temp.go main.go
 }
 

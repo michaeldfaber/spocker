@@ -1,25 +1,40 @@
 <script>
-	let httpVerb;
+	let httpVerb = "GET"
 	let endpoint;
 	let expectedJsonResponse;
+	let createMessage = "";
 
 	function handleHttpVerb(e) {
 		httpVerb = e.target.value;
-		console.log(httpVerb);
 	}
 
 	function handleEndpoint(e) {
 		endpoint = e.target.value;
-		console.log(endpoint);
 	}
 
 	function handleExpectedJsonResponse(e) {
 		expectedJsonResponse = e.target.value;
-		console.log(expectedJsonResponse);
 	}
 
-	// TODO: validate inputs
-	function handleCreate() {}
+	async function handleCreate() {
+		const expectedJsonResponseParsed = JSON.parse(expectedJsonResponse)
+		const res = await fetch('http://localhost:5005/create', {
+			method: 'POST',
+			mode: 'cors',
+			body: JSON.stringify({
+				httpVerb: httpVerb,
+				endpoint: endpoint,
+				expectedJsonResponse: expectedJsonResponseParsed
+			})
+		}).then(response => {
+			console.log(response);
+			if (response.ok) {
+				createMessage = "Successfully created " + httpVerb + " " + endpoint + " endpoint!";
+			} else {
+				createMessage = "Create failed."
+			}
+		})
+	}
 </script>
 
 <main>
@@ -41,7 +56,10 @@
 	<textarea id="expectedJsonResponseInput" type="text" on:keyup={handleExpectedJsonResponse} />
 
 	<br />
-	<button id="create" on:click={handleCreate}>Create</button>
+	<button id="create" on:click={() => handleCreate()}>Create</button>
+
+	<br />
+	<div id="create-message">{createMessage}</div>
 </main>
 
 <style>

@@ -2,9 +2,11 @@ package main
 
 import (
 	"encoding/json"
+
 	"log"
 	"net/http"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 
 	endpoints "spocker/endpoints"
@@ -16,12 +18,16 @@ func main() {
 
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
+	credentials := handlers.AllowCredentials()
+	methods := handlers.AllowedMethods([]string{"*"})
+	origins := handlers.AllowedOrigins([]string{"*"})
+
 	router.HandleFunc("/heartbeat", heartbeat).Methods("GET")
 	router.HandleFunc("/endpoints", endpoints.GetAll).Methods("GET")
 	router.HandleFunc("/create", endpoints.Create).Methods("POST")
 	router.HandleFunc("/delete", endpoints.Delete).Methods("POST")
 
-	log.Fatal(http.ListenAndServe(":5001", router))
+	log.Fatal(http.ListenAndServe(":5001", handlers.CORS(credentials, methods, origins)(router)))
 }
 func heartbeat(w http.ResponseWriter, r *http.Request) { // GET
 	w.Header().Set("Content-Type", "application/json")
