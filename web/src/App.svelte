@@ -22,7 +22,11 @@
 		}).then(response => {
 			if (response.ok) {
 				response.json().then(body => {
-					endpoints = body;
+					if (body === null) {
+						endpoints = [];
+					} else {
+						endpoints = body;
+					}
 					console.log(endpoints)
 				})
 			}
@@ -73,6 +77,7 @@
 		}).then(response => {
 			if (response.ok) {
 				updateCreateSuccessMessage("Successfully Created " + httpVerbInput + " " + endpointInput + " Endpoint!");
+				getAllEndpoints();
 			} else {
 				updateCreateFailureMessage("Create Failed");
 			}
@@ -106,10 +111,16 @@
 		<div id="create-message-failure">{createMessageFailure}</div>
 	</div>
 
+	<h1>Endpoints</h1>
 	<div id="dashboard">
 		{#each endpoints as endpoint}
 			<EndpointCard endpoint={endpoint}></EndpointCard>
 		{/each}
+		{#if endpoints.length === 0}
+			<div>
+				You don't have any endpoints. Create one to get started!
+			</div>
+		{/if}
 	</div>
 
 	<div id="footer"></div>
@@ -162,6 +173,16 @@
 	#create-message-failure {
 		margin-top: 20px;
 		color: red;
+	}
+
+	#create-form {
+		margin-bottom: 80px;
+	}
+
+	#dashboard {
+		margin: 0 auto;
+		padding: 0;
+		width: 1200px;
 	}
 
 	#footer {
