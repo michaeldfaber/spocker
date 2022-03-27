@@ -7,7 +7,5 @@ type CreateEndpointRequest struct {
 }
 
 type DeleteEndpointRequest struct {
-	Id       string `json:"id"`
-	HttpVerb string `json:"httpVerb"`
-	Endpoint string `json:"endpoint"`
+	Id string `json:"id"`
 }

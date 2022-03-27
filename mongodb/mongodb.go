@@ -99,16 +99,29 @@ func (m *MongoDb) Create(createEndpoint types.CreateEndpoint) error {
 	return nil
 }
 
-func (m *MongoDb) Delete(id string) error {
+func (m *MongoDb) Delete(id string) (types.Endpoint, error) {
+	var endpoint types.Endpoint
+
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return err
+		return endpoint, err
 	}
 
 	result := m.collection.FindOneAndDelete(m.context, bson.M{"_id": objectId})
 	if result.Err() != nil {
-		return result.Err()
+		return endpoint, result.Err()
 	}
 
-	return nil
+	var document Document
+	err = result.Decode(&document)
+	if err != nil {
+		return endpoint, err
+	}
+
+	endpoint.Id = document.Id
+	endpoint.HttpVerb = document.HttpVerb
+	endpoint.Name = document.Name
+	endpoint.Path = document.Path
+
+	return endpoint, nil
 }

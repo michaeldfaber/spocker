@@ -5,11 +5,7 @@
         await fetch('http://localhost:5005/delete', {
 			method: 'POST',
 			mode: 'cors',
-			body: JSON.stringify({
-                id: endpoint.id,
-				httpVerb: endpoint.httpVerb,
-				endpoint: endpoint.endpoint,
-			})
+			body: JSON.stringify({ id: endpoint.id })
 		}).catch(_ => {
             console.log("delete failed");
 		}).then(response => {
