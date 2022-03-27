@@ -114,7 +114,10 @@
 	<h1>Endpoints</h1>
 	<div id="dashboard">
 		{#each endpoints as endpoint}
-			<EndpointCard endpoint={endpoint}></EndpointCard>
+			<EndpointCard 
+				endpoint={endpoint}
+				getAll={() => getAllEndpoints()}
+			></EndpointCard>
 		{/each}
 		{#if endpoints.length === 0}
 			<div>

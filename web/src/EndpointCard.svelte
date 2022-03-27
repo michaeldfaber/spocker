@@ -1,5 +1,6 @@
 <script>
     export let endpoint;
+    export let getAll;
 
     async function handleDelete() {
         await fetch('http://localhost:5005/delete', {
@@ -7,10 +8,10 @@
 			mode: 'cors',
 			body: JSON.stringify({ id: endpoint.id })
 		}).catch(_ => {
-            console.log("delete failed");
+            console.log("delete failed"); // TODO
 		}).then(response => {
 			if (response.ok) {
-				console.log("response ok");
+				getAll();
 			}
 		})
     }
