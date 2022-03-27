@@ -31,7 +31,6 @@ npm run dev
 Priority
 
 - Error handling in go
-- Delete via frontend
 - Update via API
 - Update via frontend
 - Package spocker somehow, Docker?
