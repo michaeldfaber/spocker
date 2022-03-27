@@ -1,13 +1,37 @@
 <script>
-	let httpVerb = "GET"
-	let endpoint;
-	let expectedJsonResponse;
+	import { onMount } from 'svelte';
+	import EndpointCard from './EndpointCard.svelte';
+
+	let endpoints = [];
+	let httpVerbInput = "GET";
+	let endpointInput;
+	let expectedJsonResponseInput;
 	let createMessageSuccess = "";
 	let createMessageFailure = "";
 
-	function handleHttpVerb(e) { httpVerb = e.target.value; }
-	function handleEndpoint(e) { endpoint = e.target.value; }
-	function handleExpectedJsonResponse(e) { expectedJsonResponse = e.target.value; }
+	onMount(async () => {
+		await getAllEndpoints();
+	});
+
+	async function getAllEndpoints() {
+		await fetch('http://localhost:5005/endpoints', {
+			method: 'GET',
+			mode: 'cors'
+		}).catch(_ => {
+			endpoints = [];
+		}).then(response => {
+			if (response.ok) {
+				response.json().then(body => {
+					endpoints = body;
+					console.log(endpoints)
+				})
+			}
+		})
+	}
+
+	function handleHttpVerb(e) { httpVerbInput = e.target.value; }
+	function handleEndpoint(e) { endpointInput = e.target.value; }
+	function handleExpectedJsonResponse(e) { expectedJsonResponseInput = e.target.value; }
 
 	function updateCreateSuccessMessage(newMessage) {
 		createMessageSuccess = newMessage;
@@ -21,9 +45,9 @@
 
 	function createFormIsValid() {
 		let validations = "";
-		if (httpVerb === "" || httpVerb === undefined) validations += "HTTP Verb Is Empty. ";
-		if (endpoint === "" || endpoint === undefined) validations += "Endpoint Is Empty. ";
-		if (expectedJsonResponse === "" || expectedJsonResponse === undefined) validations += "Expected JSON Response Is Empty. ";
+		if (httpVerbInput === "" || httpVerbInput === undefined) validations += "HTTP Verb Is Empty. ";
+		if (endpointInput === "" || endpointInput === undefined) validations += "Endpoint Is Empty. ";
+		if (expectedJsonResponseInput === "" || expectedJsonResponseInput === undefined) validations += "Expected JSON Response Is Empty. ";
 
 		if (validations !== "") {
 			updateCreateFailureMessage(validations);
@@ -40,52 +64,56 @@
 			method: 'POST',
 			mode: 'cors',
 			body: JSON.stringify({
-				httpVerb: httpVerb,
-				endpoint: endpoint,
-				expectedJsonResponse: JSON.parse(expectedJsonResponse)
+				httpVerb: httpVerbInput,
+				endpoint: endpointInput,
+				expectedJsonResponse: JSON.parse(expectedJsonResponseInput)
 			})
 		}).catch(_ => {
 			updateCreateFailureMessage("Create Failed");
 		}).then(response => {
 			if (response.ok) {
-				updateCreateSuccessMessage("Successfully Created " + httpVerb + " " + endpoint + " Endpoint!");
+				updateCreateSuccessMessage("Successfully Created " + httpVerbInput + " " + endpointInput + " Endpoint!");
 			} else {
 				updateCreateFailureMessage("Create Failed");
 			}
 		})
 	}
-
-
 </script>
 
 <main>
 	<h1>Spocker</h1>
 
-	<!-- Create Form -->
-	<label for="httpVerbInput">HTTP Verb</label>
-	<select id="httpVerbInput" on:change={handleHttpVerb}>
-		<option value="GET">GET</option>
-		<option value="POST">POST</option>
-		<option value="PUT">PUT</option>
-		<option value="UPDATE">UPDATE</option>
-		<option value="DELETE">DELETE</option>
-	</select>
+	<div id="create-form">
+		<label for="httpVerbInput">HTTP Verb</label>
+		<select id="httpVerbInput" on:change={handleHttpVerb}>
+			<option value="GET">GET</option>
+			<option value="POST">POST</option>
+			<option value="PUT">PUT</option>
+			<option value="UPDATE">UPDATE</option>
+			<option value="DELETE">DELETE</option>
+		</select>
 
-	<label for="endpointInput">Endpoint</label>
-	/ <input id="endpointInput" type="text" on:keyup={handleEndpoint} />
+		<label for="endpointInput">Endpoint</label>
+		/ <input id="endpointInput" type="text" on:keyup={handleEndpoint} />
 
-	<label for="expectedJsonResponseInput">Expected JSON Response</label>
-	<textarea id="expectedJsonResponseInput" type="text" on:keyup={handleExpectedJsonResponse} />
+		<label for="expectedJsonResponseInput">Expected JSON Response</label>
+		<textarea id="expectedJsonResponseInput" type="text" on:keyup={handleExpectedJsonResponse} />
 
-	<br />
-	<button id="create" on:click={() => handleCreate()}>Create</button>
+		<br />
+		<button id="create" on:click={() => handleCreate()}>Create</button>
 
-	<div id="create-message-success">{createMessageSuccess}</div>
-	<div id="create-message-failure">{createMessageFailure}</div>
+		<div id="create-message-success">{createMessageSuccess}</div>
+		<div id="create-message-failure">{createMessageFailure}</div>
+	</div>
 
-	<!-- Dashboard -->
-	<!-- TODO -->
+	<div id="dashboard">
+		{#each endpoints as endpoint}
+			<EndpointCard endpoint={endpoint}></EndpointCard>
+		{/each}
+	</div>
 
+	<div id="footer"></div>
+		
 </main>
 
 <style>
@@ -134,6 +162,10 @@
 	#create-message-failure {
 		margin-top: 20px;
 		color: red;
+	}
+
+	#footer {
+		padding-bottom: 200px;
 	}
 
 	@media (min-width: 640px) {
