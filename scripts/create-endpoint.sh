@@ -22,7 +22,7 @@ function create_handler() {
     echo "func $2(w http.ResponseWriter, r *http.Request) { // $1" >> main.go
     echo "\tw.Header().Set(\"Content-Type\", \"application/json\")" >> main.go
     echo "\tvar res interface{}" >> main.go
-    echo "\tres, err := endpoints.GetResponse(\"$1\", \"$2\")" >> main.go
+    echo "\tres, err := endpoints.GetResponse(\"$4\")" >> main.go
     echo "\tif err != nil {" >> main.go
     echo "\t\treturn" >> main.go
     echo "\t}" >> main.go
@@ -30,5 +30,5 @@ function create_handler() {
     echo "}" >> main.go
 }
 
-router_handle_func $1 $2 $3 &&
-create_handler $1 $2 $3
+router_handle_func $1 $2 $3 $4 &&
+create_handler $1 $2 $3 $4

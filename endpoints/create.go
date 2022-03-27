@@ -29,8 +29,8 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	createEndpoint.Path = createEndpointRequest.Endpoint
 	createEndpoint.Response = createEndpointRequest.ExpectedJsonResponse
 
-	// get expectedJsonResponse as string
-	expectedJsonResponse, err := json.Marshal(createEndpointRequest.ExpectedJsonResponse)
+	// save to database
+	id, err := CreateDocument(createEndpoint)
 	if err != nil {
 		return
 	}
@@ -41,30 +41,25 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		createEndpoint.HttpVerb,
 		createEndpoint.Name,
 		createEndpoint.Path,
-		string(expectedJsonResponse))
+		id)
 	_, err = cmd.Output()
-	if err != nil {
-		return
-	}
-
-	// save to database
-	err = CreateDocument(createEndpoint)
 	if err != nil {
 		return
 	}
 }
 
-func CreateDocument(createEndpoint types.CreateEndpoint) error {
+func CreateDocument(createEndpoint types.CreateEndpoint) (string, error) {
+	var id string
 	mongoClient, err := mongodb.New()
 	if err != nil {
-		return err
+		return id, err
 	}
 
-	err = mongoClient.Create(createEndpoint)
+	id, err = mongoClient.Create(createEndpoint)
 	if err != nil {
-		return err
+		return id, err
 	}
 
 	mongoClient.Disconnect()
-	return nil
+	return id, nil
 }

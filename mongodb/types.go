@@ -1,10 +1,5 @@
 package mongodb
 
-type Filter struct {
-	httpVerb string
-	name     string
-}
-
 type Document struct {
 	Id       string                 `bson:"_id" json:"id,omitempty"`
 	HttpVerb string                 `json:"httpVerb"`

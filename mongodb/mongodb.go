@@ -75,12 +75,14 @@ func (m *MongoDb) GetAll() ([]types.Endpoint, error) {
 	return endpoints, nil
 }
 
-func (m *MongoDb) GetResponse(httpVerb string, name string) (interface{}, error) {
-	var filter Filter
-	filter.httpVerb = httpVerb
-	filter.name = name
+func (m *MongoDb) GetResponse(id string) (interface{}, error) {
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		var empty interface{}
+		return empty, err
+	}
 
-	result := m.collection.FindOne(m.context, filter)
+	result := m.collection.FindOne(m.context, bson.M{"_id": objectId})
 	if result.Err() != nil {
 		return nil, result.Err()
 	}
@@ -90,13 +92,19 @@ func (m *MongoDb) GetResponse(httpVerb string, name string) (interface{}, error)
 	return document.Response, nil
 }
 
-func (m *MongoDb) Create(createEndpoint types.CreateEndpoint) error {
-	_, err := m.collection.InsertOne(m.context, createEndpoint)
+// returns id of newly created endpoint
+func (m *MongoDb) Create(createEndpoint types.CreateEndpoint) (string, error) {
+	var id string
+	result, err := m.collection.InsertOne(m.context, createEndpoint)
 	if err != nil {
-		return err
+		return id, err
 	}
 
-	return nil
+	if oid, ok := result.InsertedID.(primitive.ObjectID); ok {
+		id = oid.Hex()
+	}
+
+	return id, nil
 }
 
 func (m *MongoDb) Delete(id string) (types.Endpoint, error) {

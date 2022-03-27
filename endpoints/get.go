@@ -26,14 +26,14 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(res)
 }
 
-func GetResponse(httpVerb string, name string) (interface{}, error) {
+func GetResponse(id string) (interface{}, error) {
 	mongoClient, err := mongodb.New()
 	if err != nil {
 		mongoClient.Disconnect()
 		return nil, err
 	}
 
-	response, err := mongoClient.GetResponse(httpVerb, name)
+	response, err := mongoClient.GetResponse(id)
 	if err != nil {
 		mongoClient.Disconnect()
 		return nil, err
