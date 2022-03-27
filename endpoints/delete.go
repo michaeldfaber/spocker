@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os/exec"
 
-	mongodb "spocker/mongodb"
-	types "spocker/types"
+	mongodb "github.com/michaeldfaber/spocker/mongodb"
+	types "github.com/michaeldfaber/spocker/types"
 )
 
 func Delete(w http.ResponseWriter, r *http.Request) {

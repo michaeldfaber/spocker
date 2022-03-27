@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 
-	endpoints "spocker/endpoints"
+	endpoints "github.com/michaeldfaber/spocker/endpoints"
 )
 
 func main() {

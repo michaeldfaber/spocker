@@ -1,4 +1,4 @@
-module spocker
+module github.com/michaeldfaber/spocker
 
 go 1.17
 

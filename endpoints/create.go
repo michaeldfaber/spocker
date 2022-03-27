@@ -7,8 +7,8 @@ import (
 	"os/exec"
 	"strings"
 
-	mongodb "spocker/mongodb"
-	types "spocker/types"
+	mongodb "github.com/michaeldfaber/spocker/mongodb"
+	types "github.com/michaeldfaber/spocker/types"
 )
 
 func Create(w http.ResponseWriter, r *http.Request) {

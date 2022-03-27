@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	mongodb "spocker/mongodb"
+	mongodb "github.com/michaeldfaber/spocker/mongodb"
 )
 
 func GetAll(w http.ResponseWriter, r *http.Request) {
