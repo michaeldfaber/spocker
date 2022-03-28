@@ -30,6 +30,18 @@ Run a container from the image by running the following command:
 docker run -p 5000:5000 spocker-frontend
 ```
 
+Build the backend image by running the following command in the root folder:
+
+```
+docker build -t spocker-api .
+```
+
+Run a container from the image by running the following command:
+
+```
+docker run -p 5001:5001 spocker-api
+```
+
 ## Run without Docker
 
 #### Downloads

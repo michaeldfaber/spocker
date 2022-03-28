@@ -8,4 +8,4 @@ RUN go mod download
 
 RUN go build -o spocker
 EXPOSE 5001
-CMD ["/spocker"]
+CMD ["go", "run", "."]
