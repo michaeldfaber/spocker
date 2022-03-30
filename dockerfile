@@ -5,7 +5,11 @@ WORKDIR /app
 
 COPY . .
 RUN go mod download
-
+# RUN go mod download github.com/gin-gonic/gin@latest
 RUN go build -o spocker
-EXPOSE 5001
-CMD ["go", "run", "."]
+
+# ENV GO111MODULE=off
+# RUN go get -u github.com/gin-gonic/gin
+
+EXPOSE 5005
+CMD ["./gin", "--appPort 5001", "--port 5005", "--immediate", "--build .", "--path main.go", "--bin spocker"]
