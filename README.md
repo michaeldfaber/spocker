@@ -65,7 +65,7 @@ Run `npm run dev` in the `web` folder of this repository.
 
 Priority
 
-- Run api in docker container with air instead of gin
+- Run api in docker container with air (or something else for hot reloading) instead of gin
 - Run mongo in docker container
 - docker compose to run all components together
 
