@@ -2,14 +2,9 @@
 
 A tool that makes creating mock API endpoints as simple as filling out a small form on a dashboard.
 
-A work in progress. Built with Svelte and Go.
+Built with Svelte and Go. Work in progress. 
 
 ## Run with Docker Compose
-
-The recommended approach.
-
-#### Downloads
-- [Docker](https://docs.docker.com/get-docker/)
 
 Working on it!
 
@@ -65,17 +60,11 @@ Run `npm run dev` in the `web` folder of this repository.
 
 Priority
 
-- Run api in docker container with air (or something else for hot reloading) instead of gin
-- Run mongo in docker container
 - docker compose to run all components together
 
 Future
 
-- Improve error handling
-- Update via API
-- Update via frontend
-- Authentication for mock endpoints
-- Wildcard endpoints
-- Configurable response headers for mock endpoints
-- Expiration for mock endpoints
-- Log requests received by mock endpoints
+- UI improvements
+- Update
+- Expected authentication for mock endpoints
+- Logging
