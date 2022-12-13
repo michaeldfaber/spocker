@@ -89,20 +89,33 @@
 	<h1>Spocker</h1>
 
 	<div id="create-form">
-		<label for="httpVerbInput">HTTP Verb</label>
-		<select id="httpVerbInput" on:change={handleHttpVerb}>
-			<option value="GET">GET</option>
-			<option value="POST">POST</option>
-			<option value="PUT">PUT</option>
-			<option value="UPDATE">UPDATE</option>
-			<option value="DELETE">DELETE</option>
-		</select>
+		<div class="form-row-wrapper">
+			<div class="httpVerbInput-wrapper">
+				<label class="httpVerbInput-label" for="httpVerbInput">HTTP Verb</label>
+				<select class="httpVerbInput-select" id="httpVerbInput" on:change={handleHttpVerb}>
+					<option value="GET">GET</option>
+					<option value="POST">POST</option>
+					<option value="PUT">PUT</option>
+					<option value="UPDATE">UPDATE</option>
+					<option value="DELETE">DELETE</option>
+				</select>
+			</div>
+	
+			<div class="endpointInput-wrapper">
+				<label class="endpointInput-label" for="endpointInput">Endpoint</label>
+				<div class="endpointInput-input-wrapper">
+					<span class="endpointInput-slash">/</span>
+					<input class="endpointInput-input" id="endpointInput" type="text" on:keyup={handleEndpoint} />
+				</div>
+			</div>
+		</div>
 
-		<label for="endpointInput">Endpoint</label>
-		/ <input id="endpointInput" type="text" on:keyup={handleEndpoint} />
-
-		<label for="expectedJsonResponseInput">Expected JSON Response</label>
-		<textarea id="expectedJsonResponseInput" type="text" on:keyup={handleExpectedJsonResponse} />
+		<div class="form-row-wrapper">
+			<div class="expectedJsonResponseInput-wrapper">
+				<label for="expectedJsonResponseInput">Expected JSON Response</label>
+				<textarea id="expectedJsonResponseInput" type="text" on:keyup={handleExpectedJsonResponse} />
+			</div>
+		</div>
 
 		<br />
 		<button id="create" on:click={() => handleCreate()}>Create</button>
@@ -147,15 +160,18 @@
 
 	label {
 		margin-bottom: 5px;
+		text-align: left;
+		font-size: 12px;
+		color: grey;
 	}
 
 	select, input, textarea {
-		width: 400px;
 		margin-bottom: 30px;
 	}
 
 	textarea {
 		height: 200px;
+		width: 100%;
 	}
 
 	button {
@@ -179,13 +195,13 @@
 	}
 
 	#create-form {
-		margin-bottom: 80px;
+		margin-bottom: 60px;
 	}
 
 	#dashboard {
 		margin: 0 auto;
 		padding: 0;
-		width: 1200px;
+		width: 50%;
 	}
 
 	#footer {
@@ -196,5 +212,36 @@
 		main {
 			max-width: none;
 		}
+	}
+
+	.form-row-wrapper {
+		margin-left: 25%;
+		margin-right: 25%;
+		width: 50%;
+		display: flex;
+		flex-direction: row;
+		gap: 12px;
+	}
+
+	.httpVerbInput-wrapper {
+		width: 15%;
+	}
+
+	.httpVerbInput-select, .endpointInput-input, .expectedJsonResponseInput-wrapper {
+		width: 100%;
+	}
+
+	.endpointInput-wrapper {
+		width: 85%;
+	}
+
+	.endpointInput-input-wrapper {
+		display: flex;
+		flex-direction: row;
+		gap: 12px;
+	}
+
+	.endpointInput-label {
+		margin-left: 16px;
 	}
 </style>
