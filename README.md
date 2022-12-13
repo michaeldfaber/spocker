@@ -64,7 +64,6 @@ Priority
 
 Future
 
-- UI improvements
 - Update
 - Expected authentication for mock endpoints
 - Logging
