@@ -4,8 +4,9 @@ RUN apk update && apk upgrade && \
 WORKDIR /app
 
 COPY . .
+RUN go get github.com/codegangsta/gin
 RUN go mod download
 RUN go build -o spocker
 
 EXPOSE 5005
-CMD ["./gin", "--appPort 5001", "--port 5005", "--immediate", "--build .", "--path main.go", "--bin spocker"]
+CMD ["gin", "run", "--appPort 5001", "--port 5005", "--immediate", "--build .", "--path main.go", "--bin spocker"]
