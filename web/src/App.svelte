@@ -2,32 +2,35 @@
 	import { onMount } from 'svelte';
 	import EndpointCard from './EndpointCard.svelte';
 
+	let baseUrl = 'http://localhost:5001/';
 	let endpoints = [];
-	let httpVerbInput = "GET";
+	let httpVerbInput = 'GET';
 	let endpointInput;
 	let expectedJsonResponseInput;
-	let createMessageSuccess = "";
-	let createMessageFailure = "";
+	let createMessageSuccess = '';
+	let createMessageFailure = '';
+	let endpointsMessage = 'Loading endpoints...';
 
 	onMount(async () => {
 		await getAllEndpoints();
 	});
 
 	async function getAllEndpoints() {
-		await fetch('http://localhost:5005/endpoints', {
+		await fetch(baseUrl + 'endpoints', {
 			method: 'GET',
 			mode: 'cors'
 		}).catch(_ => {
 			endpoints = [];
+			endpointsMessage = "Something went wrong. Unable to retrieve endpoints";
 		}).then(response => {
 			if (response.ok) {
 				response.json().then(body => {
 					if (body === null) {
 						endpoints = [];
+						endpointsMessage = "You don't have any endpoints. Create one to get started!";
 					} else {
 						endpoints = body;
 					}
-					console.log(endpoints)
 				})
 			}
 		})
@@ -64,7 +67,7 @@
 	async function handleCreate() {
 		if (!createFormIsValid()) return;
 
-		await fetch('http://localhost:5005/create', {
+		await fetch(baseUrl + 'create', {
 			method: 'POST',
 			mode: 'cors',
 			body: JSON.stringify({
@@ -133,14 +136,11 @@
 			></EndpointCard>
 		{/each}
 		{#if endpoints.length === 0}
-			<div>
-				You don't have any endpoints. Create one to get started!
-			</div>
+			<div id="endpoints-message">{endpointsMessage}</div>
 		{/if}
 	</div>
 
 	<div id="footer"></div>
-		
 </main>
 
 <style>
@@ -179,7 +179,7 @@
 		background-color: #f2c300;
 		text-transform: uppercase;
 		border-width: 0px;
-		font-weight: 500;
+		font-weight: 400;
 		height: 40px;
 		width: 150px;
 	}
@@ -192,6 +192,10 @@
 	#create-message-failure {
 		margin-top: 20px;
 		color: red;
+	}
+
+	#endpoints-message {
+		color: grey;
 	}
 
 	#create-form {
@@ -243,5 +247,10 @@
 
 	.endpointInput-label {
 		margin-left: 16px;
+	}
+
+	.endpointInput-slash {
+		margin-top: 6px;
+		color: grey;
 	}
 </style>

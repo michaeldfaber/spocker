@@ -7,6 +7,9 @@ COPY . .
 RUN go get github.com/codegangsta/gin
 RUN go mod download
 RUN go build -o spocker
+RUN chmod 777 scripts/run.sh
 
 EXPOSE 5005
-CMD ["gin", "run", "--appPort 5001", "--port 5005", "--immediate", "--build .", "--path main.go", "--bin spocker"]
+ENV HOST=0.0.0.0
+
+ENTRYPOINT ["scripts/run.sh"]
