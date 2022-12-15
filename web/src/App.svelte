@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import EndpointCard from './EndpointCard.svelte';
 
-	let baseUrl = 'http://localhost:5001/';
+	let baseUrl = 'http://0.0.0.0:5001/';
 	let endpoints = [];
 	let httpVerbInput = 'GET';
 	let endpointInput;
@@ -33,7 +33,7 @@
 					}
 				})
 			}
-		})
+		});
 	}
 
 	function handleHttpVerb(e) { httpVerbInput = e.target.value; }
@@ -94,7 +94,7 @@
 	<div id="create-form">
 		<div class="form-row-wrapper">
 			<div class="httpVerbInput-wrapper">
-				<label class="httpVerbInput-label" for="httpVerbInput">HTTP Verb</label>
+				<label class="httpVerbInput-label" for="httpVerbInput">HTTP</label>
 				<select class="httpVerbInput-select" id="httpVerbInput" on:change={handleHttpVerb}>
 					<option value="GET">GET</option>
 					<option value="POST">POST</option>
@@ -162,7 +162,7 @@
 		margin-bottom: 5px;
 		text-align: left;
 		font-size: 12px;
-		color: grey;
+		color: #565656;
 	}
 
 	select, input, textarea {
@@ -175,7 +175,7 @@
 	}
 
 	button {
-		color: #0099f6;
+		color: #565656;
 		background-color: #f2c300;
 		text-transform: uppercase;
 		border-width: 0px;
@@ -195,7 +195,7 @@
 	}
 
 	#endpoints-message {
-		color: grey;
+		color: #565656;
 	}
 
 	#create-form {
@@ -205,7 +205,7 @@
 	#dashboard {
 		margin: 0 auto;
 		padding: 0;
-		width: 50%;
+		width: 60%;
 	}
 
 	#footer {
@@ -251,6 +251,6 @@
 
 	.endpointInput-slash {
 		margin-top: 6px;
-		color: grey;
+		color: #565656;
 	}
 </style>

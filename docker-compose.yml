@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  web:
+    build: web/
+    ports:
+      - "5000:5000"
+  api:
+    build: .
+    ports:
+      - "5001:5001"
+  mongo:
+    image: "mongo"
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/var/lib/mongo
+volumes:
+  mongo-data:

@@ -22,7 +22,7 @@ type MongoDb struct {
 func New() (*MongoDb, error) {
 	var mongodb MongoDb
 
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://mongo:27017"))
 	if err != nil {
 		return &mongodb, err
 	}
