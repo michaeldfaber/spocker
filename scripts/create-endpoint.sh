@@ -13,13 +13,13 @@ fi
 
 # add router line to handleRequests()
 function router_handle_func() {
-    awk -v verb="$1" -v name="$2" -v path="$3" 'NR==30{print "     router.HandleFunc(\"/" path "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
+    awk -v verb="$1" -v name="$1$2" -v path="$3" 'NR==30{print "     router.HandleFunc(\"/" path "\", " name ").Methods(\"" verb "\")"}1' main.go >> main-temp.go
     rm main.go && mv main-temp.go main.go
 }
 
 # add function
 function create_handler() {
-    echo "func $2(w http.ResponseWriter, r *http.Request) { // $1" >> main.go
+    echo "func $1$2(w http.ResponseWriter, r *http.Request) {" >> main.go
     echo "     w.Header().Set(\"Content-Type\", \"application/json\")" >> main.go
     echo "     var res interface{}" >> main.go
     echo "     res, err := endpoints.GetResponse(\"$4\")" >> main.go

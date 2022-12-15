@@ -13,19 +13,19 @@ fi
 
 # delete router line from handleRequests()
 function delete_router_handle_func() {
-    router_handle=$(grep -n "router.HandleFunc(\"/$3\", $2).Methods(\"$1\")" main.go)
+    router_handle=$(grep -n "router.HandleFunc(\"/$3\", $1$2).Methods(\"$1\")" main.go)
     if [ -z "$router_handle" ]
     then
         return
     fi
     
-    $(grep -v "router.HandleFunc(\"/$3\", $2).Methods(\"$1\")" main.go >> main-temp.go)
+    $(grep -v "router.HandleFunc(\"/$3\", $1$2).Methods(\"$1\")" main.go >> main-temp.go)
     rm main.go && mv main-temp.go main.go
 }
 
 # delete function
 function delete_handler() {
-    handler=$(grep -n "func $2(w http.ResponseWriter, r \*http.Request) { // $1" main.go)
+    handler=$(grep -n "func $1$2(w http.ResponseWriter, r \*http.Request) {" main.go)
     if [ -z "$handler" ]
     then
         return
