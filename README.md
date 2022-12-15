@@ -2,13 +2,18 @@
 
 Instantly create mock endpoints for testing your frontend applications locally. Built with Svelte and Go.
 
+-----
+
 Fill out a simple form to create a new endpoint:
+
 ![Spocker Form](./docs/README_images/form.png)
 
 Managing existing endpoints with a simple dashboard:
+
 ![Spocker Dashboard](./docs/README_images//dashboard.png)
 
 And that's it.
+
 ![Spocker Postman Example](./docs/README_images//example.png)
 
 # Setup
@@ -28,7 +33,7 @@ Recommended
     
     `http://localhost:5000`
 
-3. Call new endpoints at with the following as your base URL:
+3. Call new endpoints with the following base URL:
 
     `http://localhost:5001`
 
